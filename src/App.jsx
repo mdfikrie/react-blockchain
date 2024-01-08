@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import "./App.css";
 import Web3 from "web3";
 import { useState } from "react";
@@ -14,20 +14,34 @@ function App() {
 
   const [account, setAccount] = useState("");
 
+  const [balance, setBallance] = useState(null);
+
+  const [shouldReload, reload] = useState(false);
+
+  const reloadEffect = () => reload(!shouldReload);
+
+  console.log(shouldReload);
+
   useEffect(() => {
-    window.process = { ...window.process };
-  }, []);
+    const loadBalance = async () => {
+      const { contract, web3 } = web3Api;
+      const newBalance = await web3.eth.getBalance(contract.address);
+      setBallance(web3.utils.fromWei(newBalance, "ether"));
+    };
+
+    web3Api.contract && loadBalance();
+  }, [web3Api, shouldReload]);
 
   useEffect(() => {
     const loadProvider = async () => {
       let provider = await detectEthereumProvider();
-      // const contract = await loadContracts("Faucet");
+      const contract = await loadContracts("Faucet", provider);
       // debugger;
       if (provider) {
         setWeb3Api({
           web3: new Web3(provider),
           provider,
-          // contract,
+          contract,
         });
       } else {
         console.error("User denied account access!");
@@ -45,6 +59,15 @@ function App() {
 
     web3Api.web3 && getAccount();
   }, [web3Api.web3]);
+
+  const addFunds = useCallback(async () => {
+    const { contract, web3 } = web3Api;
+    await contract.addFunds({
+      from: account,
+      value: web3.utils.toWei("1", "ether"),
+    });
+    reloadEffect();
+  }, [web3Api, account]);
 
   return (
     <>
@@ -74,9 +97,11 @@ function App() {
             </span>
           </div>
           <div className="balance-view is-size-2 mb-2">
-            Current balance: <strong>10</strong> ETH
+            Current balance: <strong>{balance}</strong> ETH
           </div>
-          <button className="button is-link mr-2 is-small">Donate</button>
+          <button onClick={addFunds} className="button is-link mr-2 is-small">
+            Donate 1 eth
+          </button>
           <button className="button is-primary is-small">WithDraw</button>
         </div>
       </div>

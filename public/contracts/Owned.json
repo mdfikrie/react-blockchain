@@ -328,7 +328,7 @@
   "sourceMap": "69:227:4:-:0;;;116:45;;;;;;;;;;145:10;137:5;;:18;;;;;;;;;;;;;;;;;;69:227;;;;;;",
   "deployedSourceMap": "69:227:4:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;89:20;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;:::o;7:126:6:-;44:7;84:42;77:5;73:54;62:65;;7:126;;;:::o;139:96::-;176:7;205:24;223:5;205:24;:::i;:::-;194:35;;139:96;;;:::o;241:118::-;328:24;346:5;328:24;:::i;:::-;323:3;316:37;241:118;;:::o;365:222::-;458:4;496:2;485:9;481:18;473:26;;509:71;577:1;566:9;562:17;553:6;509:71;:::i;:::-;365:222;;;;:::o",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.22 <0.9.0;\r\n\r\ncontract Owned {\r\n  address public owner;\r\n\r\n  constructor() {\r\n    owner = msg.sender;\r\n  }\r\n\r\n  modifier onlyOwner {\r\n    require(\r\n      msg.sender == owner,\r\n      \"Only owner can call this function\"\r\n    );\r\n    _;\r\n  }\r\n}",
-  "sourcePath": "C:\\Users\\ACER\\Documents\\fikri\\react_blockchain\\contracts\\Owned.sol",
+  "sourcePath": "C:\\React-Project\\react_blockchain\\contracts\\Owned.sol",
   "ast": {
     "absolutePath": "project:/contracts/Owned.sol",
     "exportedSymbols": {
@@ -652,7 +652,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2023-12-27T10:12:14.094Z",
+  "updatedAt": "2024-01-08T08:56:30.169Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

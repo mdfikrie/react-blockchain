@@ -50,7 +50,7 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.22 <0.9.0;\r\n\r\n// It's a way for designer to say that\r\n// \"any child of the abstract contract has to implmenet speicifed methods\"\r\n\r\nabstract contract Logger {\r\n    uint public testNum;\r\n\r\n    constructor() {\r\n        testNum = 1000;\r\n    }\r\n\r\n    function emitLog() public pure virtual returns (bytes32);\r\n\r\n    function test3() internal pure returns (uint) {\r\n        return 100;\r\n    }\r\n\r\n    function test5() external pure returns (uint) {\r\n        test3();\r\n        return 10;\r\n    }\r\n}\r\n",
-  "sourcePath": "C:\\Users\\ACER\\Documents\\fikri\\react_blockchain\\contracts\\Logger.sol",
+  "sourcePath": "C:\\React-Project\\react_blockchain\\contracts\\Logger.sol",
   "ast": {
     "absolutePath": "project:/contracts/Logger.sol",
     "exportedSymbols": {
@@ -471,7 +471,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2023-12-27T10:12:14.090Z",
+  "updatedAt": "2024-01-08T08:56:30.166Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

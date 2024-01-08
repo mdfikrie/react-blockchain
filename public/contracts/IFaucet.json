@@ -31,7 +31,7 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.22 <0.9.0;\r\n\r\n// they cannot inherit from other smart contracts\r\n// they can only inherit from other interfaces\r\n\r\n// They cannot declare a constructor\r\n// They cannot declare state variables\r\n// all declared functions have to be external\r\n\r\ninterface IFaucet {\r\n    function addFunds() external payable;\r\n\r\n    function withdraw(uint withdrawAmount) external;\r\n}\r\n",
-  "sourcePath": "C:\\Users\\ACER\\Documents\\fikri\\react_blockchain\\contracts\\IFaucet.sol",
+  "sourcePath": "C:\\React-Project\\react_blockchain\\contracts\\IFaucet.sol",
   "ast": {
     "absolutePath": "project:/contracts/IFaucet.sol",
     "exportedSymbols": {
@@ -168,7 +168,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2023-12-27T10:12:14.089Z",
+  "updatedAt": "2024-01-08T08:56:30.164Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
