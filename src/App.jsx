@@ -16,11 +16,11 @@ function App() {
 
   const [balance, setBallance] = useState(null);
 
-  const [shouldReload, reload] = useState(false);
+  const [shouldReload, setReload] = useState(false);
 
-  const reloadEffect = () => reload(!shouldReload);
+  const reloadEffect = () => setReload((prev) => !prev);
 
-  console.log(shouldReload);
+  const canConnectToContract = account && web3Api.contract;
 
   useEffect(() => {
     const loadBalance = async () => {
@@ -32,12 +32,24 @@ function App() {
     web3Api.contract && loadBalance();
   }, [web3Api, shouldReload]);
 
+  const setAccountListener = (provider) => {
+    provider.on("accountsChanged", (_) => window.location.reload());
+    provider.on("chainChanged", (_) => window.location.reload());
+    // provider._jsonRpcConnection.events.on("notification", (payload) => {
+    //   const { method } = payload;
+    //   if (method === "metamask_unlockStateChanged") {
+    //     setAccount(null);
+    //   }
+    // });
+  };
+
   useEffect(() => {
     const loadProvider = async () => {
       let provider = await detectEthereumProvider();
       const contract = await loadContracts("Faucet", provider);
       // debugger;
       if (provider) {
+        setAccountListener(provider);
         setWeb3Api({
           web3: new Web3(provider),
           provider,
@@ -69,6 +81,15 @@ function App() {
     reloadEffect();
   }, [web3Api, account]);
 
+  const withDrawFunds = async () => {
+    const { contract, web3 } = web3Api;
+    const withdrawAmount = web3.utils.toWei("0.1", "ether");
+    await contract.withdraw(withdrawAmount, {
+      from: account,
+    });
+    reloadEffect();
+  };
+
   return (
     <>
       <div className="faucet-wrapper">
@@ -81,6 +102,11 @@ function App() {
               <h3>
                 {account ? (
                   <div>{account}</div>
+                ) : !web3Api.provider ? (
+                  <>
+                    <div className="">Wallet is not detected!</div>
+                    <a href="https://docs.metamask.io">Metamask</a>
+                  </>
                 ) : (
                   <button
                     className="button  is-small"
@@ -99,10 +125,23 @@ function App() {
           <div className="balance-view is-size-2 mb-2">
             Current balance: <strong>{balance}</strong> ETH
           </div>
-          <button onClick={addFunds} className="button is-link mr-2 is-small">
-            Donate 1 eth
+          {!canConnectToContract && (
+            <div className="is-block mb-2">Connect to Ganache</div>
+          )}
+          <button
+            disabled={!canConnectToContract}
+            onClick={addFunds}
+            className="button is-link mr-2 is-small"
+          >
+            Donate 1eth
           </button>
-          <button className="button is-primary is-small">WithDraw</button>
+          <button
+            disabled={!canConnectToContract}
+            onClick={withDrawFunds}
+            className="button is-primary is-small"
+          >
+            Withdraw 0.1eth
+          </button>
         </div>
       </div>
     </>
